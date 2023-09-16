@@ -102,3 +102,39 @@ const spin = () => {
 };
 
 const reels = spin();
+
+// NOW CHECKING IF THE USER WON,
+//1. well transpoe the matrices to see exactly how it shows on thw slot machine
+
+const transpose = (reels) => {
+  const rows = [];
+
+  for (let i = 0; i < ROWS; i++) {
+    rows.push([]);
+    for (let j = 0; j < COLS; j++) {
+      rows[i].push(reels[j][i]);
+    }
+  }
+  return rows;
+};
+
+const rows = transpose(reels);
+console.log(rows);
+
+const printRows = (rows) => {
+  for (const row of rows) {
+    let rowString = '';
+
+    for (const [i, symbol] of row.entries()) {
+      rowString += symbol;
+
+      if (i != rows.length - 1) {
+        rowString += ' | ';
+      }
+    }
+
+    console.log(rowString);
+  }
+};
+
+printRows(rows);
