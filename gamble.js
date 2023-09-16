@@ -138,3 +138,30 @@ const printRows = (rows) => {
 };
 
 printRows(rows);
+
+//2. Now determining the win
+
+const getWinnings = (rows, bet, lines) => {
+  let winnings = 0;
+  for (let row = 0; row < lines; row++) {
+    const symbols = rows[row];
+    let allSame = true;
+
+    for (const symbol of symbols) {
+      if (symbol != symbols[0]) {
+        allSame = false;
+        break;
+      }
+    }
+
+    if (allSame) {
+      winnings += bet * SYMBOLS_VALUES[symbols[0]];
+    }
+  }
+  return winnings;
+};
+
+// lets see how much the winnings are
+
+const winnings = getWinnings(rows, bet, numberOfLines);
+console.log('YOU WON, $' + winnings.toString());
