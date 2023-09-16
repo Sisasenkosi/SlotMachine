@@ -55,9 +55,6 @@ const getNumberOfLines = () => {
   }
 };
 
-let balance = deposit();
-const numberOfLines = getNumberOfLines();
-
 const getBet = (balance, lines) => {
   while (true) {
     const bet = prompt('Enter amount to bet on per line: ');
@@ -71,8 +68,6 @@ const getBet = (balance, lines) => {
   }
 };
 
-const bet = getBet(balance, numberOfLines);
-
 // FUNCTION THAT SPINS THE MACHINE
 
 const spin = () => {
@@ -82,7 +77,7 @@ const spin = () => {
       symbols.push(symbol);
     }
   }
-  console.log(symbols);
+  //console.log(symbols);
 
   // generate symbols and put them in the array, eache array represents a column
 
@@ -101,8 +96,6 @@ const spin = () => {
   return reels;
 };
 
-const reels = spin();
-
 // NOW CHECKING IF THE USER WON,
 //1. well transpoe the matrices to see exactly how it shows on thw slot machine
 
@@ -117,9 +110,6 @@ const transpose = (reels) => {
   }
   return rows;
 };
-
-const rows = transpose(reels);
-console.log(rows);
 
 const printRows = (rows) => {
   for (const row of rows) {
@@ -136,8 +126,6 @@ const printRows = (rows) => {
     console.log(rowString);
   }
 };
-
-printRows(rows);
 
 //2. Now determining the win
 
@@ -161,7 +149,29 @@ const getWinnings = (rows, bet, lines) => {
   return winnings;
 };
 
-// lets see how much the winnings are
+const game = () => {
+  let balance = deposit();
 
-const winnings = getWinnings(rows, bet, numberOfLines);
-console.log('YOU WON, $' + winnings.toString());
+  while (true) {
+    console.log('***************** You have a balance of $' + balance);
+    const numberOfLines = getNumberOfLines();
+    const bet = getBet(balance, numberOfLines);
+    balance -= bet * numberOfLines;
+    const reels = spin();
+    const rows = transpose(reels);
+    printRows(rows);
+    // lets see how much the winnings are
+    const winnings = getWinnings(rows, bet, numberOfLines);
+    balance += winnings;
+    console.log('YOU WON, $' + winnings.toString());
+
+    if (balance <= 0) {
+      console.log('You ran out of money ');
+      break;
+    }
+
+    const playAgain = prompt('Do you want to play again? (y/n)');
+    if (playAgain != 'y') break;
+  }
+};
+game();
